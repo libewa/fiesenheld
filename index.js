@@ -1,8 +1,16 @@
-const TOKEN = "MTA0OTM5NzM3NDk1MjQxOTM2OA.GEHd9L.NPhCLfYh4zTZ4DFo3Iis3QBd2tvO1JsuVPrS4I"
 const CLIENT_ID = "1049397374952419368"
 // register command
 
 const { REST, Routes } = require('discord.js');
+const fs = require('fs')
+
+fs.readFile('token.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  const TOKEN = data
+});
 
 const commands = [
   {

@@ -1,16 +1,20 @@
 const CLIENT_ID = "1049397374952419368"
+var TOKEN = ""
+
 // register command
 
 const { REST, Routes } = require('discord.js');
-const fs = require('fs')
 
-fs.readFile('token.txt', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  const TOKEN = data
-});
+const fs = require('fs');
+
+try {
+  const data = fs.readFileSync('./token.txt', 'utf8');
+  console.log(data);
+  TOKEN = data
+} catch (err) {
+  console.error(err);
+}
+
 
 const commands = [
   {

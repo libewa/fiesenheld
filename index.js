@@ -35,8 +35,6 @@ for (const file of commandFiles) {
 	}
 }
 
-
-
 client.on('ready', () => {
   client.user.setActivity(nowPlaying)
   client.user.setStatus(status);

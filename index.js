@@ -3,7 +3,7 @@ const CLIENT_ID = ""
 // register command
 
 const { REST, Routes, Collection } = require('discord.js')
-const { token } = require('./config.json')
+const { token, nowPlaying, status } = require('./config.json')
 
 console.log(token)
 
@@ -38,6 +38,8 @@ for (const file of commandFiles) {
 
 
 client.on('ready', () => {
+  client.user.setActivity(nowPlaying)
+  client.user.setStatus(status);
   console.log(`Logged in as ${client.user.tag}!`);
 });
 

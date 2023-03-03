@@ -1,50 +1,41 @@
-const CLIENT_ID = "1049397374952419368"
-var TOKEN = ""
+const CLIENT_ID = ""
 
 // register command
 
-const { REST, Routes } = require('discord.js');
+const { REST, Routes, Collection } = require('discord.js')
+const { token } = require('./config.json')
+
+console.log(token)
+
 
 const fs = require('fs');
-
-try {
-  const data = fs.readFileSync('./token.txt', 'utf8');
-  console.log(data);
-  TOKEN = data
-} catch (err) {
-  console.error(err);
-}
+const path = require('path');
 
 
-const commands = [
-  {
-    name: 'ping',
-    description: 'Replies with Pong!',
-  },
-  {
-    name: 'whomadethis',
-    description: 'Links the GitHub repo.'
-  }
-];
 
-const rest = new REST({ version: '10' }).setToken(TOKEN);
-
-(async () => {
-  try {
-    console.log('Started refreshing application (/) commands.');
-
-    await rest.put(Routes.applicationCommands(CLIENT_ID), { body: commands });
-
-    console.log('Successfully reloaded application (/) commands.');
-  } catch (error) {
-    console.error(error);
-  }
-})();
+const rest = new REST({ version: '10' }).setToken(token);
 
 // wait for interaction
 
 const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+// Import commands from ./commands/
+client.commands = new Collection();
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
+
+
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -53,14 +44,21 @@ client.on('ready', () => {
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong!');
-  }
-  if (interaction.commandName === 'whomadethis') {
-    await interaction.reply('https://github.com/libewa/fiesenheld \n is brought to you by [libewa](libewa.github.io) and [Nils-nonline](www.3d-game.org)')
-  }
+  const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
 });
 
 // login
 
-client.login(TOKEN);
+client.login(token);

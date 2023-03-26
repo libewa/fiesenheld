@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "discord.js": "^14.7.1"
+    "discord.js": "^14.7.1",
+    "events": "^3.3.0",
+    "pkg": "^5.8.0"
   }
 }

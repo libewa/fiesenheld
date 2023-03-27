@@ -14,12 +14,10 @@ node index.js
 ```json
 {
     "token": "YOUR_TOKEN",
-<<<<<<< HEAD
-    "clientId": "CLIENT_ID
-=======
     "clientId": "CLIENT_ID",
+    "activity": "playing, listening, watching, custom or competing",
     "nowPlaying": "any string",
-    "status": "online, idle, dnd or invisible"
->>>>>>> 11978e0ae0cc21ad364cb0fcff1006c04ad26edd
+    "status": "online, idle, dnd or invisible",
+    "afk": bool
 }
 ```

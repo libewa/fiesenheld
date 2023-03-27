@@ -2,8 +2,8 @@ const CLIENT_ID = ""
 
 // register command
 
-const { REST, Routes, Collection } = require('discord.js')
-const { token, nowPlaying, status } = require('./config.json')
+const { REST, Routes, Collection, ActivityType } = require('discord.js')
+const { token, nowPlaying, status, activity, afk } = require('./config.json')
 
 console.log(token)
 
@@ -35,9 +35,29 @@ for (const file of commandFiles) {
 	}
 }
 
+
+
 client.on('ready', () => {
-  client.user.setActivity(nowPlaying)
+  switch (activity) {
+	case 'playing':
+		client.user.setActivity(nowPlaying, ActivityType.Playing)
+		break;
+	case 'competing':
+		client.user.setActivity(nowPlaying, ActivityType.Competing)
+		break;
+	case 'watching':
+		client.user.setActivity(nowPlaying, ActivityType.Watching)
+		break;
+	case 'listening':
+		client.user.setActivity(nowPlaying, ActivityType.Listening)
+		break;
+	case 'custom':
+		client.user.setActivity(nowPlaying, ActivityType.Custom)
+	default:
+		break;
+  }
   client.user.setStatus(status);
+  client.user.setAFK(afk)
   console.log(`Logged in as ${client.user.tag}!`);
 });
 

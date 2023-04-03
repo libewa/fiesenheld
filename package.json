@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "discord.js": "^14.7.1"
+    "@discordjs/builders": "^1.6.1",
+    "cheerio": "^1.0.0-rc.12",
+    "discord.js": "^14.7.1",
+    "events": "^3.3.0",
+    "node-fetch": "^3.3.1",
+    "pkg": "^5.8.0",
+    "rss-parser": "^3.12.0"
   }
 }

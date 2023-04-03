@@ -1,0 +1,10 @@
+services:
+  bot:
+    image: node:alpine
+    environment:
+      - TOKEN="your token"
+      - CLIENT_ID="what it says"
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: bot.js

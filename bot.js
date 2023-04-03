@@ -4,15 +4,12 @@ const token = process.env['token']
 
 const { REST, Routes, Collection, ActivityType } = require('discord.js')
 const { nowPlaying, status, activity, afk } = require('./config.json')
+const keep_alive = require('./keep_alive.js');
 
 console.log(token)
 
-
 const fs = require('fs');
 const path = require('path');
-
-
-
 const rest = new REST({ version: '10' }).setToken(token);
 
 // wait for interaction

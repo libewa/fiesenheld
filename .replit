@@ -1,4 +1,4 @@
-entrypoint = "index.js"
+entrypoint = "bot.js"
 
 hidden = [".config", "package-lock.json"]
 

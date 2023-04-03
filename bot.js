@@ -1,9 +1,9 @@
-const CLIENT_ID = ""
+const token = process.env['token']
 
 // register command
 
 const { REST, Routes, Collection, ActivityType } = require('discord.js')
-const { token, nowPlaying, status, activity, afk } = require('./config.json')
+const { nowPlaying, status, activity, afk } = require('./config.json')
 
 console.log(token)
 

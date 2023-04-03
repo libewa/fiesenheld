@@ -22,5 +22,3 @@ This is the `config.json` template:
 ```
 
 `CLIENT_ID` and `TOKEN` are now given via environment variables or Replit secrets.
-
-There is also an example `docker-compose.yml` file included in the download.

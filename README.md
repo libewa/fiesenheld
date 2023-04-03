@@ -10,14 +10,15 @@ node refreshCommands.js
 node index.js
 ```
 
-# `config.json`
+# Configuring
+This is the `config.json` template:
 ```json
 {
-    "token": "YOUR_TOKEN",
-    "clientId": "CLIENT_ID",
     "activity": "playing, listening, watching, custom or competing",
     "nowPlaying": "any string",
     "status": "online, idle, dnd or invisible",
-    "afk": bool
+    "afk": false
 }
 ```
+
+`CLIENT_ID` and `TOKEN` are now given via environment variables or Replit secrets.

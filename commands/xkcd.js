@@ -2,7 +2,7 @@ process.noDeprecation = true
 
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { AttachmentBuilder } = require('discord.js')
-const fetch = import('node-fetch')
+const fetch = (await import('node-fetch')).default
 const cheerio = require('cheerio')
 
 module.exports = {

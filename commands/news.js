@@ -4,6 +4,9 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('news')
     .setDescription('Returns the latest news from the Tagesschau homepage.')
+    .setDescriptionLocalizations({
+      de: 'Die neuesten Nachrichten, direkt von der Tagesschau-Website.'
+    })
     .addIntegerOption(option =>
         option.setName('index')
             .setDescription('The index of the element to show')

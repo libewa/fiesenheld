@@ -5,7 +5,13 @@ const db = new Database()
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('balance')
-    .setDescription('View your balance'),
+    .setDescription('View your balance')
+    .setNameLocalizations({
+      de: 'bank'
+    })
+    .setDescriptionLocalizations({
+      de: 'Schau auf dein Bankkonto'
+    }),
   async execute(interaction) {
     const user = interaction.user.id
     console.log(user)

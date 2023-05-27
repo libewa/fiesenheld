@@ -1,10 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Database = require("@replit/database")
 const db = new Database()
-
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('balance')
+    .setName('bank')
     .setDescription('View your balance')
     .setNameLocalizations({
       de: 'bank'

@@ -5,9 +5,6 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('bank')
     .setDescription('View your balance')
-    .setNameLocalizations({
-      de: 'bank'
-    })
     .setDescriptionLocalizations({
       de: 'Schau auf dein Bankkonto'
     }),

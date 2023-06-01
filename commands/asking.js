@@ -7,7 +7,7 @@ module.exports = {
     .setDescriptionLocalizations({
       de: 'Wenn jemand einen der häufigen Fehler beim Fragen macht.'
     })
-    .addUserOption(option => 
+    .addUserOption(option =>
       option.setName('target')
         .setDescription('Der Nutzer, der auf dieses Thema aufmerksam gemacht werden soll.')
         .setRequired(false)

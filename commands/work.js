@@ -16,7 +16,7 @@ module.exports = {
         db.set(`${user}`, { money: newMoney, items: wallet.items })
         interaction.reply(`You earned \`${earn}\` money`)
       } else {
-        db.set(`${user}`, { money: 100, items: []})
+        db.set(`${user}`, { money: 100, items: [] })
         interaction.reply('Your wallet has been created and you have been given `100` money.')
       }
     })

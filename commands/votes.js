@@ -54,7 +54,7 @@ module.exports = {
   			.setStyle(ButtonStyle.Primary)
         .setEmoji('❎')
       embed = new EmbedBuilder()
-        .setTitle(`A new vote by ${user}!`)
+        .setTitle(`A new vote by ${user.tag}!`)
         .setDescription(question)
         .addFields(
           { name: 'Yes', value: `0 votes`},
@@ -90,7 +90,7 @@ module.exports = {
         elements.push(option4)
       }
       embed = new EmbedBuilder()
-        .setTitle(`A new vote by ${user}!`)
+        .setTitle(`A new vote by ${user.tag}!`)
         .setDescription(question)
         .addFields(
           { name: "Option 1", value: `${one} | 0 votes`, inline: false },
@@ -114,8 +114,11 @@ module.exports = {
       three: 0,
       four: 0
     }
+    var voters = []
     collector.on('collect', async i => {
-    	const selection = i.customId;
+      if (!voters.includes(i.user.id)){
+        voters.push(i.user.id)
+        const selection = i.customId;
         switch (selection) {
           case 'option1':
             votes.one += 1
@@ -129,8 +132,9 @@ module.exports = {
           case 'option4':
             votes.four += 1
           default:
-            break;
             interaction.followUp('something went wrong')
+            break;
+        }
           if (command === 'yes-no') {
             embed.data.fields[0].value = `${votes.one} votes`
             embed.data.fields[1].value = `${votes.two} votes`
@@ -144,9 +148,11 @@ module.exports = {
               embed.data.fields[3].value = `${four} | ${votes.four} votes`
             }
           }
-          await interaction.editReply({components: [row], embeds: [embed]})
-        }
-        
+          await i.deferUpdate()
+          await response.edit({components: [row], embeds: [embed]})
+      } else {
+        i.reply({content: 'You already voted on this topic', ephemeral: true})
+      }
     });
   }
 }

@@ -6,19 +6,11 @@ private discord bot
 npm install
 vim config.json # for syntax below
 # if you forgot: ESC, then :wq to exit vim ;-P
+# set envs
+token="discordtoken"
+clientID="discordclientid"
 node refreshCommands.js
-node index.js
+node bot.js
 ```
 
-# Configuring
-This is the `config.json` template:
-```json
-{
-    "activity": "playing, listening, watching, custom or competing",
-    "nowPlaying": "any string",
-    "status": "online, idle, dnd or invisible",
-    "afk": false
-}
-```
-
-`CLIENT_ID` and `TOKEN` are now given via environment variables or Replit secrets.
+`CLIENTID` and `TOKEN` are now given via environment variables or Replit/Codespaces secrets.

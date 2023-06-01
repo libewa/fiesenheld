@@ -1,10 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
-const fetch = import('node-fetch');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('news')
     .setDescription('Returns the latest news from the Tagesschau homepage.')
+    .setDescriptionLocalizations({
+      de: 'Die neuesten Nachrichten, direkt von der Tagesschau-Website.'
+    })
     .addIntegerOption(option =>
         option.setName('index')
             .setDescription('The index of the element to show')
@@ -12,9 +14,10 @@ module.exports = {
             .setMinValue(0)
             .setMaxValue(10)),
   async execute(interaction) {
+    const index = interaction.options.getInteger('index')
     const response = await fetch('https://www.tagesschau.de/api2/homepage');
     const data = await response.json();
-    const article = data.news[0];
+    const article = data.news[index];
     const embed = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle(article.title)

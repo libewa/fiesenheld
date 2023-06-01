@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fetch = import('node-fetch');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,7 +6,7 @@ module.exports = {
         .setDescription('Tells a random joke.')
         .addStringOption(option =>
             option.setName('language')
-                .setDescription('The jokes language (english if none)')
+                .setDescription('The joke\'s language (english if none)')
                 .addChoices(
                     { name: 'Deutsch', value: 'de'},
                     { name: 'English', value: 'en'},

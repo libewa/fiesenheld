@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { client } = require('../bot.js')
-
+const { Client, GatewayIntentBits } = require('discord.js');
+const client = new Client({ intents: [] });
+const token = process.env['token']
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('feedback')
@@ -14,12 +15,12 @@ module.exports = {
                 .setDescription('Whether to include your name in the feedback')
                 .setRequired(false)),
 	async execute(interaction) {
-        const anon = interaction.options.getBoolean('anonymous')
-        const user = anon ? interaction.user : 'An anonymous user'
-        const linus = await client.users.fetch("840499419626995742")
-		linus.send(`
-        ${user} has provided feedback:
-        ${content}
-        `)
+    client.login(token)
+    const content = interaction.options.getString('content')
+    const anon = interaction.options.getBoolean('anonymous')
+    const user = anon ? 'An anonymous user' : interaction.user
+    const linus = await client.users.fetch("840499419626995742")
+		linus.send(`${user} has provided feedback:\n${content}`)
+    interaction.reply({content: 'Your feedback has been sent', ephemeral: true})
 	},
 };

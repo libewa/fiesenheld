@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -39,22 +39,27 @@ module.exports = {
   async execute(interaction) {
     const command = interaction.options.getSubcommand()
     var question = interaction.options.getString('question')
+    const user = await interaction.user.fetch(true)
     var elements = []
     var embed;
     if (command === 'yes-no') {
       const yes = new ButtonBuilder()
-  			.setCustomId('yes')
+  			.setCustomId('option1')
   			.setLabel('Yes')
   			.setStyle(ButtonStyle.Primary)
         .setEmoji('✅')
       const no = new ButtonBuilder()
-  			.setCustomId('no')
+  			.setCustomId('option2')
   			.setLabel('No')
   			.setStyle(ButtonStyle.Primary)
         .setEmoji('❎')
       embed = new EmbedBuilder()
-        .setTitle(`A new vote by ${interaction.user}!`)
+        .setTitle(`A new vote by ${user}!`)
         .setDescription(question)
+        .addFields(
+          { name: 'Yes', value: `0 votes`},
+          { name: 'No', value: `0 votes`}
+        )
       elements = [yes, no]
     } else if (command === 'options') {
       const one = interaction.options.getString('one')
@@ -85,22 +90,63 @@ module.exports = {
         elements.push(option4)
       }
       embed = new EmbedBuilder()
-        .setTitle(`A new vote by ${interaction.user}!`)
+        .setTitle(`A new vote by ${user}!`)
         .setDescription(question)
         .addFields(
-          { name: "Option 1", value: one, inline: true },
-          { name: "Option 2", value: two, inline: true }
+          { name: "Option 1", value: `${one} | 0 votes`, inline: false },
+          { name: "Option 2", value: `${two} | 0 votes`, inline: false }
         )
         if (three != null) {
-          embed.addFields({ name : "Option 3", value: three, inline: true })
+          embed.addFields({ name : "Option 3", value: `${three} | 0 votes`, inline: false })
         }
         if (four != null) {
-          embed.addFields({ name : "Option 4", value: four, inline: true })
+          embed.addFields({ name : "Option 4", value: `${four} | 0 votes`, inline: false })
         }
     }
     
     const row = new ActionRowBuilder()
       .addComponents(elements)
-    interaction.reply({components: [row], embeds: [embed]})
+    const response = await interaction.reply({components: [row], embeds: [embed]})
+    const collector = response.createMessageComponentCollector({ componentType: ComponentType.Button, time: 3_600_000 });
+    var votes = {
+      one: 0,
+      two: 0,
+      three: 0,
+      four: 0
+    }
+    collector.on('collect', async i => {
+    	const selection = i.customId;
+        switch (selection) {
+          case 'option1':
+            votes.one += 1
+            break;
+          case 'option2':
+            votes.two += 1
+            break;
+          case 'option3':
+            votes.three += 1
+            break;
+          case 'option4':
+            votes.four += 1
+          default:
+            break;
+            interaction.followUp('something went wrong')
+          if (command === 'yes-no') {
+            embed.data.fields[0].value = `${votes.one} votes`
+            embed.data.fields[1].value = `${votes.two} votes`
+          } else {
+            embed.data.fields[0].value = `${one} | ${votes.one} votes`
+            embed.data.fields[1].value = `${two} | ${votes.two} votes`
+            if (three != null) {
+              embed.data.fields[2].value = `${three} | ${votes.three} votes`
+            }
+            if (four != null) {
+              embed.data.fields[3].value = `${four} | ${votes.four} votes`
+            }
+          }
+          await interaction.editReply({components: [row], embeds: [embed]})
+        }
+        
+    });
   }
 }

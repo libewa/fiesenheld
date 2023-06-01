@@ -40,14 +40,14 @@ module.exports = {
     const $ = cheerio.load(pageText);
     const permalink = $('#middleContainer > a:first').attr('href')
     const cTitle = $('#ctitle').text();
-    const imageUrl = 'https:' + $('#comic img').attr('src').replace('.png', '_2x.png')
+    const imageUrl = $('#middleContainer > a:last').attr('href')
     console.log(imageUrl, cTitle, permalink)
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
       .setTitle(cTitle)
       .setURL(permalink)
-      .setImage(imageUrl)
       .setFooter({ text: 'XKCD: A webcomic of romance, sarcasm, math, and language.', iconURL: 'https://www.explainxkcd.com/wiki/images/1/1f/xkcd_favicon.png' })
+      .setImage(imageUrl)
     await interaction.reply({ embeds: [embed] });
   }
 }

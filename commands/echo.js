@@ -1,24 +1,24 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('echo')
-        .setDescriptionLocalizations({
-          de: 'Sendet die Eingabe zurück'
+  data: new SlashCommandBuilder()
+    .setName('echo')
+    .setDescriptionLocalizations({
+      de: 'Sendet die Eingabe zurück'
+    })
+    .setDescription('Replies with the input')
+    .addStringOption(option =>
+      option.setName('input')
+        .setNameLocalizations({
+          de: 'eingabe'
         })
-        .setDescription('Replies with the input')
-        .addStringOption(option =>
-            option.setName('input')
-                .setNameLocalizations({
-                  de: 'eingabe'
-                })
-                .setDescriptionLocalizations({
-                  de: 'Die Eingabe'
-                })
-                .setDescription('Your input')
-                .setRequired(true)),
-    
-    async execute(interaction) {
-        await interaction.reply(interaction.options.getString('input'));
-    }
+        .setDescriptionLocalizations({
+          de: 'Die Eingabe'
+        })
+        .setDescription('Your input')
+        .setRequired(true)),
+
+  async execute(interaction) {
+    await interaction.reply(interaction.options.getString('input'));
+  }
 }

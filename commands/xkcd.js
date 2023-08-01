@@ -41,9 +41,8 @@ module.exports = {
     const permalink = $('#middleContainer > a:first').attr('href')
     const cTitle = $('#ctitle').text();
     const imageUrl = $('#middleContainer > a:last').attr('href')
-    console.log(imageUrl, cTitle, permalink)
+    //console.log(imageUrl, cTitle, permalink)
     const embed = new EmbedBuilder()
-      .setColor(0x0099ff)
       .setTitle(cTitle)
       .setURL(permalink)
       .setFooter({ text: 'XKCD: A webcomic of romance, sarcasm, math, and language.', iconURL: 'https://www.explainxkcd.com/wiki/images/1/1f/xkcd_favicon.png' })

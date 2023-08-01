@@ -57,8 +57,9 @@ module.exports = {
         .setTitle(`A new vote by ${user.tag}!`)
         .setDescription(question)
         .addFields(
-          { name: 'Yes', value: `0 votes` },
-          { name: 'No', value: `0 votes` }
+          { name: "This vote will expire", value: `<t:${Math.round(Date.now()/1000+900)}:R>`, inline: true},
+          { name: 'Yes', value: `0 votes` ,inline: false},
+          { name: 'No', value: `0 votes` , inline: false}
         )
       elements = [yes, no]
     } else if (command === 'options') {
@@ -93,14 +94,15 @@ module.exports = {
         .setTitle(`A new vote by ${user.tag}!`)
         .setDescription(question)
         .addFields(
-          { name: "Option 1", value: `${one} | 0 votes`, inline: false },
-          { name: "Option 2", value: `${two} | 0 votes`, inline: false }
+          { name: "This vote will expire", value: `<t:${Math.round(Date.now()/1000+900)}:R>`, inline: true},
+          { name: one, value: `0 votes`, inline: false },
+          { name: two, value: `0 votes`, inline: false }
         )
       if (three != null) {
-        embed.addFields({ name: "Option 3", value: `${three} | 0 votes`, inline: false })
+        embed.addFields({ name: three, value: `0 votes`, inline: false })
       }
       if (four != null) {
-        embed.addFields({ name: "Option 4", value: `${four} | 0 votes`, inline: false })
+        embed.addFields({ name: four, value: `0 votes`, inline: false })
       }
     }
 
@@ -136,16 +138,16 @@ module.exports = {
             break;
         }
         if (command === 'yes-no') {
-          embed.data.fields[0].value = `${votes.one} votes`
-          embed.data.fields[1].value = `${votes.two} votes`
+          embed.data.fields[1].value = `${votes.one} votes`
+          embed.data.fields[2].value = `${votes.two} votes`
         } else {
-          embed.data.fields[0].value = `${one} | ${votes.one} votes`
-          embed.data.fields[1].value = `${two} | ${votes.two} votes`
+          embed.data.fields[1].value = `${votes.one} votes`
+          embed.data.fields[2].value = `${votes.two} votes`
           if (three != null) {
-            embed.data.fields[2].value = `${three} | ${votes.three} votes`
+            embed.data.fields[3].value = `${votes.three} votes`
           }
           if (four != null) {
-            embed.data.fields[3].value = `${four} | ${votes.four} votes`
+            embed.data.fields[4].value = `${votes.four} votes`
           }
         }
         await i.deferUpdate()
